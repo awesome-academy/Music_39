@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Genre;
 import java.util.List;
@@ -39,18 +40,24 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         return mGenreList != null ? mGenreList.size() : 0;
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder {
+    class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private static final String DRAWABLE = "drawable";
         private ImageView mGenreImageView;
 
         ViewHolder(View itemView) {
             super(itemView);
             mGenreImageView = itemView.findViewById(R.id.imageView_item);
+            itemView.setOnClickListener(this);
         }
 
         private void bindData(Genre genre) {
             mGenreImageView.setImageResource(mContext.getResources()
                     .getIdentifier(genre.getGenreImage(), DRAWABLE, mContext.getPackageName()));
+        }
+
+        @Override
+        public void onClick(View v) {
+            Toast.makeText(mContext, "" + getAdapterPosition(), Toast.LENGTH_SHORT).show();
         }
     }
 }
