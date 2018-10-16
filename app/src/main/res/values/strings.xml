@@ -3,4 +3,10 @@
     <string name="title_home">Home</string>
     <string name="title_music">Music</string>
     <string name="title_search">Search</string>
+    <string name="music">music</string>
+    <string name="alternative_rock">alternative_rock</string>
+    <string name="ambient">ambient</string>
+    <string name="audio">audio</string>
+    <string name="classical">classical</string>
+    <string name="country">country</string>
 </resources>

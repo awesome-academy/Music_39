@@ -3,5 +3,6 @@
     <color name="colorPrimary">#b493c3</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="bgHomeScreen">#04040c</color>
     <color name="bgBottomNavigation">#db79a6</color>
 </resources>
