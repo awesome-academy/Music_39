@@ -1,6 +1,7 @@
 package com.framgia.music_39.screen.home;
 
 import android.content.Context;
+import android.support.annotation.IdRes;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -10,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Genre;
+import com.framgia.music_39.screen.utils.Genres;
 import java.util.List;
 
 public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
