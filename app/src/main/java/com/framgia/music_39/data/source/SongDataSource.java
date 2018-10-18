@@ -4,7 +4,7 @@ import com.framgia.music_39.data.source.remote.SongRemoteDataCallBack;
 
 public interface SongDataSource {
     interface RemoteDataSource extends SongDataSource {
-        void getData(SongRemoteDataCallBack listener, String url);
+        void getListSongByGenres(String genre, SongRemoteDataCallBack listener);
     }
 
     interface LocalDataSource extends SongDataSource {

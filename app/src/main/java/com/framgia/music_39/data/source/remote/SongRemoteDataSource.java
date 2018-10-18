@@ -1,6 +1,7 @@
 package com.framgia.music_39.data.source.remote;
 
 import com.framgia.music_39.data.source.SongDataSource;
+import com.framgia.music_39.screen.utils.Constant;
 
 public class SongRemoteDataSource implements SongDataSource.RemoteDataSource {
     private static SongRemoteDataSource mInstance;
@@ -16,8 +17,8 @@ public class SongRemoteDataSource implements SongDataSource.RemoteDataSource {
     }
 
     @Override
-    public void getData(SongRemoteDataCallBack listener, String url) {
+    public void getListSongByGenres(String genre, SongRemoteDataCallBack listener) {
         FetchData fetchData = new FetchData(listener);
-        fetchData.execute(url);
+        fetchData.execute(Constant.GENRES_URL + genre);
     }
 }
