@@ -18,7 +18,7 @@ public class SongRepository {
         return mInstance;
     }
 
-    public void getData(SongRemoteDataCallBack listener, String url) {
-        mRemoteDataSource.getData(listener, url);
+    public void getListSongByGenres(String genre, SongRemoteDataCallBack listener) {
+        mRemoteDataSource.getListSongByGenres(genre, listener);
     }
 }

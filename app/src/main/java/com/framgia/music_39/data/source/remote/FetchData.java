@@ -18,9 +18,10 @@ import org.json.JSONObject;
 public class FetchData extends AsyncTask<String, Void, List<Song>> {
     private static final String GET = "GET";
     private static final String COLLECTION = "collection";
+
     private SongRemoteDataCallBack mSongRemoteDataCallBack;
-    private List<Song> mSongList;
-    private String mData;
+    private List<Song> mSongList = new ArrayList<>();
+    private String mData = "";
 
     FetchData(SongRemoteDataCallBack songRemoteDataCallBack) {
         mSongRemoteDataCallBack = songRemoteDataCallBack;
@@ -47,29 +48,30 @@ public class FetchData extends AsyncTask<String, Void, List<Song>> {
             mSongRemoteDataCallBack.onFail(e);
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
         }
         return mSongList;
     }
 
-    private List<Song> pareJsonToObject(String data) throws JSONException {
+    private List<Song> pareJsonToObject(String data) {
         List<Song> songList = new ArrayList<>();
+        try {
+            JSONObject jsonObj = new JSONObject(data);
+            JSONArray jsonArray = jsonObj.getJSONArray(COLLECTION);
 
-        JSONObject jsonObj = new JSONObject(data);
-        JSONArray jsonArray = jsonObj.getJSONArray(COLLECTION);
-
-        for (int i = 0; i < jsonArray.length(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            Song song =
-                    new Song.SongBuilder().nameSong(jsonObject.getString(Song.SongEntry.NAME_SONG))
-                            .nameArtist(jsonObject.getString(Song.SongEntry.NAME_ARTIST))
-                            .imageSong(jsonObject.getString(Song.SongEntry.URL_IMAGE))
-                            .linkSong(jsonObject.getString(Song.SongEntry.URL_PERMALINK))
-                            .duration(jsonObject.getString(Song.SongEntry.DURATION))
-                            .downloadLink(jsonObject.getString(Song.SongEntry.URL_DOWNLOAD))
-                            .build();
-            songList.add(song);
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jsonObject = jsonArray.getJSONObject(i);
+                Song song = new Song.SongBuilder().nameSong(
+                        jsonObject.getString(Song.SongEntry.NAME_SONG))
+                        .nameArtist(jsonObject.getString(Song.SongEntry.NAME_ARTIST))
+                        .imageSong(jsonObject.getString(Song.SongEntry.URL_IMAGE))
+                        .linkSong(jsonObject.getString(Song.SongEntry.URL_PERMALINK))
+                        .duration(jsonObject.getString(Song.SongEntry.DURATION))
+                        .downloadLink(jsonObject.getString(Song.SongEntry.URL_DOWNLOAD))
+                        .build();
+                songList.add(song);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return songList;
     }
