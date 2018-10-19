@@ -7,7 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
+import com.bumptech.glide.Glide;
 import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Genre;
 import com.framgia.music_39.screen.utils.ItemClickListener;
@@ -44,7 +44,6 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private static final String DRAWABLE = "drawable";
         private ImageView mGenreImageView;
         private ItemClickListener mClickListener;
 
@@ -56,8 +55,7 @@ public class HomeAdapter extends RecyclerView.Adapter<HomeAdapter.ViewHolder> {
         }
 
         private void bindData(Genre genre) {
-            mGenreImageView.setImageResource(mContext.getResources()
-                    .getIdentifier(genre.getGenreImage(), DRAWABLE, mContext.getPackageName()));
+            Glide.with(mContext).load(genre.getGenreImage()).into(mGenreImageView);
         }
 
         @Override

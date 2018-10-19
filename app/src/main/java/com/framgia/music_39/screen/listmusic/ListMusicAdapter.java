@@ -67,6 +67,7 @@ public class ListMusicAdapter extends RecyclerView.Adapter<ListMusicAdapter.View
             mImageViewSong = itemView.findViewById(R.id.imageView_song_item);
             mTextViewNameSong = itemView.findViewById(R.id.textView_name_song_item);
             mTextViewNameArtist = itemView.findViewById(R.id.textView_name_artist_item);
+            itemView.setOnClickListener(this);
         }
 
         void bindData(Song song) {

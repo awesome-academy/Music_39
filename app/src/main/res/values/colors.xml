@@ -3,6 +3,9 @@
     <color name="colorPrimary">#b493c3</color>
     <color name="colorPrimaryDark">#000</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="colorTextView">#d1d3d9</color>
     <color name="bgHomeScreen">#04040c</color>
-    <color name="bgBottomNavigation">#db79a6</color>
+    <color name="bgBottomNavigation">#101529</color>
+    <color name="bgListMusic">#05070d</color>
+    <color name="bgItemListMusic">#101529</color>
 </resources>

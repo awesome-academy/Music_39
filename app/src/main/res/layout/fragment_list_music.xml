@@ -5,16 +5,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/bgListMusic"
+    android:clickable="true"
+    android:focusable="true"
     >
     <ImageButton
         android:id="@+id/button_back"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_5"
         android:background="@android:color/transparent"
         app:layout_constraintBottom_toTopOf="@+id/recycler_view_list_music"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_back_black_36dp"
+        app:srcCompat="@drawable/ic_back_24dp"
         tools:ignore="VectorDrawableCompat"
         />
     <android.support.v7.widget.RecyclerView
