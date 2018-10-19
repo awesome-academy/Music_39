@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Song;
@@ -17,10 +18,9 @@ import com.framgia.music_39.screen.utils.ItemClickListener;
 import java.util.List;
 
 public class ListMusicFragment extends Fragment
-        implements ListMusicContract.View, ItemClickListener {
+        implements ListMusicContract.View, ItemClickListener, View.OnClickListener {
 
     private static String ARGUMENT_GENRE = "ARGUMENT_GENRE";
-
     private ListMusicAdapter mListMusicAdapter;
 
     public static ListMusicFragment getListMusicFragment(String genre) {
@@ -42,6 +42,8 @@ public class ListMusicFragment extends Fragment
     }
 
     private void initView(View view) {
+        ImageButton buttonBack = view.findViewById(R.id.button_back);
+        buttonBack.setOnClickListener(this);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_list_music);
         recyclerView.setHasFixedSize(true);
         mListMusicAdapter = new ListMusicAdapter(getContext());
@@ -73,5 +75,12 @@ public class ListMusicFragment extends Fragment
     @Override
     public void onItemClicked(int position) {
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v.getId() == R.id.button_back) {
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
     }
 }

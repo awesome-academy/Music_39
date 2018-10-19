@@ -4,15 +4,20 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="@dimen/dp_3"
+    app:cardBackgroundColor="@color/bgItemListMusic"
+    app:cardCornerRadius="@dimen/dp_10"
     >
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5"
         >
         <ImageView
             android:id="@+id/imageView_song_item"
             android:layout_width="@dimen/dp_50"
             android:layout_height="@dimen/dp_50"
+            android:background="@color/bgItemListMusic"
+            android:padding="@dimen/dp_5"
             android:src="@drawable/ic_file_mp3"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/textView_name_song_item"
@@ -24,6 +29,7 @@
             android:layout_height="wrap_content"
             android:ellipsize="end"
             android:maxLines="1"
+            android:textColor="@color/colorTextView"
             android:textSize="@dimen/sp_18"
             app:layout_constraintLeft_toRightOf="@+id/imageView_song_item"
             app:layout_constraintTop_toTopOf="parent"
@@ -35,6 +41,7 @@
             android:ellipsize="end"
             android:maxLines="1"
             android:padding="@dimen/dp_1"
+            android:textColor="@color/colorTextView"
             android:textSize="@dimen/sp_15"
             app:layout_constraintLeft_toRightOf="@id/imageView_song_item"
             app:layout_constraintTop_toBottomOf="@+id/textView_name_song_item"

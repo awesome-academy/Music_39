@@ -1,17 +1,17 @@
 package com.framgia.music_39.data.model;
 
 public class Genre {
-    private String mGenreImage;
+    private int mGenreImage;
 
-    public Genre(String genreImage) {
+    public Genre(int genreImage) {
         mGenreImage = genreImage;
     }
 
-    public String getGenreImage() {
+    public int getGenreImage() {
         return mGenreImage;
     }
 
-    public void setGenreImage(String genreImage) {
+    public void setGenreImage(int genreImage) {
         mGenreImage = genreImage;
     }
 }

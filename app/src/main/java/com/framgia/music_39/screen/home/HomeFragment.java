@@ -33,12 +33,12 @@ public class HomeFragment extends Fragment implements ItemClickListener {
 
     private List<Genre> getGenreList() {
         List<Genre> genreList = new ArrayList<>();
-        genreList.add(new Genre(getString(R.string.music)));
-        genreList.add(new Genre(getString(R.string.audio)));
-        genreList.add(new Genre(getString(R.string.alternative_rock)));
-        genreList.add(new Genre(getString(R.string.ambient)));
-        genreList.add(new Genre(getString(R.string.classical)));
-        genreList.add(new Genre(getString(R.string.country)));
+        genreList.add(new Genre((R.drawable.music)));
+        genreList.add(new Genre(R.drawable.audio));
+        genreList.add(new Genre((R.drawable.alternative_rock)));
+        genreList.add(new Genre((R.drawable.ambient)));
+        genreList.add(new Genre((R.drawable.classical)));
+        genreList.add(new Genre((R.drawable.country)));
         return genreList;
     }
 
@@ -49,22 +49,22 @@ public class HomeFragment extends Fragment implements ItemClickListener {
     @Override
     public void onItemClicked(int position) {
         switch (position) {
-            case Genres.GENRE_1:
+            case Genres.GENRE_MUSIC:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.MUSIC));
                 break;
-            case Genres.GENRE_2:
+            case Genres.GENRE_AUDIO:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.AUDIO));
                 break;
-            case Genres.GENRE_3:
+            case Genres.GENRE_ALTERNATIVE_ROCK:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.ALTERNATIVE_ROCK));
                 break;
-            case Genres.GENRE_4:
+            case Genres.GENRE_AMBIENT:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.AMBIENT));
                 break;
-            case Genres.GENRE_5:
+            case Genres.GENRE_CLASSICAL:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.CLASSICAL));
                 break;
-            case Genres.GENRE_6:
+            case Genres.GENRE_COUNTRY:
                 addFragment(ListMusicFragment.getListMusicFragment(Genres.COUNTRY));
                 break;
         }
