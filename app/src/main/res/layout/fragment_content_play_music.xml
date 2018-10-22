@@ -89,7 +89,7 @@
     <SeekBar
         android:id="@+id/seekBar"
         android:layout_width="0dp"
-        android:layout_height="@dimen/dp32"
+        android:layout_height="@dimen/dp_32"
         app:layout_constraintBottom_toTopOf="@id/buttonPlay"
         app:layout_constraintLeft_toRightOf="@id/textViewTimeCurrent"
         app:layout_constraintRight_toLeftOf="@id/textViewTimeFinal"
