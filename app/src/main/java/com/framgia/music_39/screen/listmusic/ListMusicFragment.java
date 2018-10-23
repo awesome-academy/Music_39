@@ -14,7 +14,10 @@ import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Song;
 import com.framgia.music_39.data.repository.SongRepository;
 import com.framgia.music_39.data.source.remote.SongRemoteDataSource;
+import com.framgia.music_39.screen.playmusic.FragmentPlayMusic;
+import com.framgia.music_39.screen.utils.Navigator;
 import com.framgia.music_39.screen.utils.ItemClickListener;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListMusicFragment extends Fragment
@@ -22,6 +25,9 @@ public class ListMusicFragment extends Fragment
 
     private static String ARGUMENT_GENRE = "ARGUMENT_GENRE";
     private ListMusicAdapter mListMusicAdapter;
+    private List<Song> mSongList;
+    private int mPosition;
+    private Navigator mNavigator;
 
     public static ListMusicFragment getListMusicFragment(String genre) {
         ListMusicFragment listMusicFragment = new ListMusicFragment();
@@ -49,6 +55,7 @@ public class ListMusicFragment extends Fragment
         mListMusicAdapter = new ListMusicAdapter(getContext());
         mListMusicAdapter.setItemClickListener(this);
         recyclerView.setAdapter(mListMusicAdapter);
+        mNavigator = new Navigator();
     }
 
     private void initPresenter() {
@@ -65,6 +72,7 @@ public class ListMusicFragment extends Fragment
     public void onSuccess(List<Song> songList) {
         assert songList != null;
         mListMusicAdapter.updateData(songList);
+        mSongList = songList;
     }
 
     @Override
@@ -74,7 +82,15 @@ public class ListMusicFragment extends Fragment
 
     @Override
     public void onItemClicked(int position) {
+        mPosition = position;
+        addFragmentPlayMusic();
+    }
 
+    private void addFragmentPlayMusic() {
+        FragmentPlayMusic fragmentPlayMusic =
+                FragmentPlayMusic.newInstance(mPosition, (ArrayList<Song>) mSongList);
+        mNavigator.addFragment(getActivity(), fragmentPlayMusic,
+                R.id.frame_content_list_home);
     }
 
     @Override

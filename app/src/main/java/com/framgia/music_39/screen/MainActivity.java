@@ -10,10 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import com.framgia.music_39.R;
 import com.framgia.music_39.screen.home.HomeFragment;
+import com.framgia.music_39.screen.utils.Navigator;
 
 public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
     private ActionBar mActionBar;
+    private Navigator mNavigator;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,10 +25,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initView() {
+        mNavigator = new Navigator();
         mActionBar = getSupportActionBar();
         assert mActionBar != null;
         mActionBar.hide();
-        loadFragment(HomeFragment.newInstance());
+        mNavigator.addFragment(MainActivity.this,HomeFragment.newInstance(),R.id.frame_container);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 mActionBar.setTitle(R.string.title_home);
-                loadFragment(HomeFragment.newInstance());
+                mNavigator.addFragment(MainActivity.this,HomeFragment.newInstance(),R.id.frame_container);
                 return true;
             case R.id.navigation_music:
                 mActionBar.setTitle(R.string.title_music);
@@ -52,7 +55,6 @@ public class MainActivity extends AppCompatActivity
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
         transaction.commit();
     }
 }
