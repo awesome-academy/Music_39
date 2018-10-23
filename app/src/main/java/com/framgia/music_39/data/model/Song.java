@@ -167,7 +167,7 @@ public class Song implements Parcelable {
         public static final String NAME_SONG = "title";
         public static final String NAME_ARTIST = "label_name";
         public static final String URL_IMAGE = "artwork_url";
-        public static final String URL_PERMALINK = "permalink_url";
+        public static final String URL_STREAM = "stream_url";
         public static final String DURATION = "duration";
         public static final String URL_DOWNLOAD = "download_url";
     }

@@ -15,6 +15,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import static com.framgia.music_39.screen.utils.Constant.CLIENT_ID;
+
 public class FetchData extends AsyncTask<String, Void, List<Song>> {
     private static final String GET = "GET";
     private static final String COLLECTION = "collection";
@@ -64,7 +66,7 @@ public class FetchData extends AsyncTask<String, Void, List<Song>> {
                         jsonObject.getString(Song.SongEntry.NAME_SONG))
                         .nameArtist(jsonObject.getString(Song.SongEntry.NAME_ARTIST))
                         .imageSong(jsonObject.getString(Song.SongEntry.URL_IMAGE))
-                        .linkSong(jsonObject.getString(Song.SongEntry.URL_PERMALINK))
+                        .linkSong(jsonObject.getString(Song.SongEntry.URL_STREAM) + CLIENT_ID)
                         .duration(jsonObject.getString(Song.SongEntry.DURATION))
                         .downloadLink(jsonObject.getString(Song.SongEntry.URL_DOWNLOAD))
                         .build();
