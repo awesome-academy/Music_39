@@ -18,6 +18,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.framgia.music_39.R;
@@ -27,10 +28,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import static android.content.Context.BIND_AUTO_CREATE;
 import static com.framgia.music_39.screen.utils.Constant.ONE;
+import static com.framgia.music_39.screen.utils.Options.LOOP_ALL;
+import static com.framgia.music_39.screen.utils.Options.LOOP_ONE;
+import static com.framgia.music_39.screen.utils.Options.NON_LOOP;
+import static com.framgia.music_39.screen.utils.Options.NON_SHUFFLE;
+import static com.framgia.music_39.screen.utils.Options.SHUFFLE;
 
 public class FragmentPlayMusic extends Fragment
         implements View.OnClickListener, MediaPlayer.OnCompletionListener {
@@ -38,6 +45,8 @@ public class FragmentPlayMusic extends Fragment
     private static final String BUNDLE_LIST_SONG = "BUNDLE_LIST_SONG";
 
     private ImageButton mButtonPlay;
+    private ImageButton mButtonLoop;
+    private ImageButton mButtonShuffle;
     private TextView mTextViewNameSong;
     private TextView mTextViewNameArtist;
     private TextView mTextViewTimeCurrent;
@@ -60,6 +69,9 @@ public class FragmentPlayMusic extends Fragment
     private boolean mIsBoundService;
     private View mView;
     private View mViewListMusic;
+    private int mState = NON_LOOP;
+    private int mIsShuffle = NON_SHUFFLE;
+    private Random mRandom = new Random();
 
     private ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -117,6 +129,8 @@ public class FragmentPlayMusic extends Fragment
         ImageButton buttonDownload = mView.findViewById(R.id.buttonDownload);
         ImageButton buttonNext = mView.findViewById(R.id.buttonNext);
         ImageButton buttonPrevious = mView.findViewById(R.id.buttonPrevious);
+        mButtonLoop = mView.findViewById(R.id.buttonRepeat);
+        mButtonShuffle = mView.findViewById(R.id.buttonShuffle);
         mButtonPlay = mView.findViewById(R.id.buttonPlay);
 
         mView.findViewById(R.id.layout_bottom).setVisibility(View.GONE);
@@ -146,6 +160,8 @@ public class FragmentPlayMusic extends Fragment
         buttonPrevious.setOnClickListener(this);
         mButtonPlay.setOnClickListener(this);
         buttonNext.setOnClickListener(this);
+        mButtonLoop.setOnClickListener(this);
+        mButtonShuffle.setOnClickListener(this);
     }
 
     private void setServiceConnection() {
@@ -170,7 +186,8 @@ public class FragmentPlayMusic extends Fragment
     public void setUISong() {
         mMediaPlayer = mServicePlayMusic.getMediaPlayer();
         mMediaPlayer.setOnCompletionListener(this);
-        Glide.with(this)
+        assert getActivity() != null;
+        Glide.with(getActivity())
                 .load(mSongList.get(mPosition).getImageSong())
                 .apply(new RequestOptions().placeholder(R.drawable.ic_disc1))
                 .into(mImageMusic);
@@ -227,12 +244,7 @@ public class FragmentPlayMusic extends Fragment
     public void setButtonNext() {
         mButtonPlay.setImageResource(R.drawable.ic_pause_black_24dp);
         mButtonPlayMini.setImageResource(R.drawable.ic_pause_black_24dp);
-        if (mPosition == mSongList.size() - ONE) {
-            mPosition = 0;
-        } else {
-            mPosition++;
-        }
-        mServicePlayMusic.next();
+        handleNext();
         setUISong();
         setUISongMini();
     }
@@ -254,12 +266,7 @@ public class FragmentPlayMusic extends Fragment
     public void setButtonPrevious() {
         mButtonPlay.setImageResource(R.drawable.ic_pause_black_24dp);
         mButtonPlayMini.setImageResource(R.drawable.ic_pause_black_24dp);
-        if (mPosition == 0) {
-            mPosition = mSongList.size() - ONE;
-        } else {
-            mPosition--;
-        }
-        mServicePlayMusic.previous();
+        handlePrevious();
         setUISongMini();
         setUISong();
     }
@@ -267,20 +274,49 @@ public class FragmentPlayMusic extends Fragment
     public void setButtonNextMini() {
         mButtonPlayMini.setImageResource(R.drawable.ic_pause_black_24dp);
         mButtonPlay.setImageResource(R.drawable.ic_pause_black_24dp);
-        if (mPosition == mSongList.size() - ONE) {
-            mPosition = 0;
-        } else {
-            mPosition++;
-        }
-        mServicePlayMusic.next();
+        handleNext();
         setUISongMini();
         setUISong();
     }
 
+    public void handleNext() {
+        if (mState == LOOP_ONE) {
+            mServicePlayMusic.playMusic();
+        } else {
+            if (mPosition == mSongList.size() - ONE) {
+                mPosition = 0;
+            } else {
+                mPosition++;
+            }
+            handleShuffle();
+            mServicePlayMusic.next();
+        }
+    }
+
+    public void handlePrevious() {
+        if (mState == LOOP_ONE) {
+            mServicePlayMusic.playMusic();
+        } else {
+            if (mPosition == 0) {
+                mPosition = mSongList.size() - ONE;
+            } else {
+                mPosition--;
+            }
+            handleShuffle();
+            mServicePlayMusic.previous();
+        }
+    }
+
+    private void handleShuffle() {
+        if (mIsShuffle == SHUFFLE) {
+            mPosition = mRandom.nextInt((mSongList.size() - ONE) + ONE);
+        }
+    }
+
     public void setButtonPlayMini() {
         if (mServicePlayMusic.checkPlay()) {
-            mButtonPlayMini.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-            mButtonPlay.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+            mButtonPlayMini.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+            mButtonPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
             mRotateAnimation.setRepeatCount(0);
             mImageMusic.clearAnimation();
         } else {
@@ -295,14 +331,42 @@ public class FragmentPlayMusic extends Fragment
     public void setButtonPreviousMini() {
         mButtonPlayMini.setImageResource(R.drawable.ic_pause_black_24dp);
         mButtonPlay.setImageResource(R.drawable.ic_pause_black_24dp);
-        if (mPosition == 0) {
-            mPosition = mSongList.size() - ONE;
-        } else {
-            mPosition--;
-        }
-        mServicePlayMusic.previous();
+        handlePrevious();
         setUISongMini();
         setUISong();
+    }
+
+    private void setButtonLoop() {
+
+        switch (mState) {
+            case NON_LOOP:
+                mState = LOOP_ONE;
+                mButtonLoop.setImageResource(R.drawable.ic_repeat_one_24dp);
+                Toast.makeText(getContext(), R.string.loop_one, Toast.LENGTH_SHORT).show();
+                break;
+            case LOOP_ONE:
+                mState = LOOP_ALL;
+                mButtonLoop.setImageResource(R.drawable.ic_repeat_24dp);
+                Toast.makeText(getContext(), R.string.loop_all, Toast.LENGTH_SHORT).show();
+                break;
+            case LOOP_ALL:
+                mState = NON_LOOP;
+                mButtonLoop.setImageResource(R.drawable.ic_non_repeat_24dp);
+                Toast.makeText(getContext(), R.string.non_loop, Toast.LENGTH_SHORT).show();
+                break;
+        }
+    }
+
+    private void setButtonShuffle() {
+        if (mIsShuffle == NON_SHUFFLE) {
+            mIsShuffle = SHUFFLE;
+            mButtonShuffle.setImageResource(R.drawable.ic_shuffle_black_24dp);
+            Toast.makeText(getContext(), R.string.shuffle, Toast.LENGTH_SHORT).show();
+        } else {
+            mIsShuffle = NON_SHUFFLE;
+            mButtonShuffle.setImageResource(R.drawable.ic_non_shuffle_24dp);
+            Toast.makeText(getContext(), R.string.non_shuffle, Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override
@@ -329,14 +393,40 @@ public class FragmentPlayMusic extends Fragment
             case R.id.buttonPreviousMiNi:
                 setButtonPreviousMini();
                 break;
+            case R.id.buttonRepeat:
+                setButtonLoop();
+                break;
+            case R.id.buttonShuffle:
+                setButtonShuffle();
         }
     }
 
     @Override
     public void onCompletion(MediaPlayer mp) {
-        mButtonPlayMini.setImageResource(R.drawable.ic_play_arrow_white_24dp);
-        mButtonPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
-        mRotateAnimation.setRepeatCount(0);
-        mImageMusic.clearAnimation();
+        switch (mState) {
+            case NON_LOOP:
+                mButtonPlayMini.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                mButtonPlay.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                mRotateAnimation.setRepeatCount(0);
+                mImageMusic.clearAnimation();
+                break;
+            case LOOP_ONE:
+                mServicePlayMusic.playMusic();
+                break;
+            case LOOP_ALL:
+                if (mPosition == mSongList.size() - ONE) {
+                    mPosition = 0;
+                } else {
+                    mPosition++;
+                }
+                mServicePlayMusic.next();
+                setUISong();
+                break;
+        }
+        switch (mIsShuffle) {
+            case SHUFFLE:
+                mPosition = mRandom.nextInt((mSongList.size() - ONE) + ONE);
+                break;
+        }
     }
 }

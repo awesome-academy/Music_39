@@ -12,6 +12,8 @@ import com.framgia.music_39.data.model.Song;
 import java.io.IOException;
 import java.util.List;
 
+import static com.framgia.music_39.screen.utils.Constant.ONE;
+
 public class ServicePlayMusic extends Service {
 
     private IBinder mIBinder = new ServicePlay();
@@ -80,7 +82,7 @@ public class ServicePlayMusic extends Service {
     }
 
     public void next() {
-        if (mPosition == mSongList.size() - 1) {
+        if (mPosition == mSongList.size() - ONE) {
             mPosition = 0;
         } else {
             mPosition++;
@@ -94,7 +96,7 @@ public class ServicePlayMusic extends Service {
 
     public void previous() {
         if (mPosition == 0) {
-            mPosition = (mSongList.size() - 1);
+            mPosition = (mSongList.size() - ONE);
         } else {
             mPosition--;
         }

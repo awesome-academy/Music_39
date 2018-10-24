@@ -9,4 +9,9 @@
     <string name="audio">audio</string>
     <string name="classical">classical</string>
     <string name="country">country</string>
+    <string name="loop_all">Loop All</string>
+    <string name="loop_one">Loop One</string>
+    <string name="non_loop">Noon Loop</string>
+    <string name="shuffle">Shuffle</string>
+    <string name="non_shuffle">Noon Shuffle</string>
 </resources>
