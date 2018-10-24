@@ -14,4 +14,6 @@
     <string name="non_loop">Noon Loop</string>
     <string name="shuffle">Shuffle</string>
     <string name="non_shuffle">Noon Shuffle</string>
+    <string name="null_link">Null Link</string>
+    <string name="downloading">Downloading</string>
 </resources>
