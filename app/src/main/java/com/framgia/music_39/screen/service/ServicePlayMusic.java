@@ -1,13 +1,17 @@
 package com.framgia.music_39.screen.service;
 
+import android.app.DownloadManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.widget.Toast;
+import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Song;
 import java.io.IOException;
 import java.util.List;
@@ -110,6 +114,24 @@ public class ServicePlayMusic extends Service {
         } else {
             mMediaPlayer.start();
             return false;
+        }
+    }
+
+    public void downLoad() {
+        DownloadManager downloadManager =
+                (DownloadManager) this.getSystemService(Context.DOWNLOAD_SERVICE);
+        String linkDownLoad = mSongList.get(mPosition).getLink();
+        if (linkDownLoad != null) {
+            Uri uri = Uri.parse(linkDownLoad);
+            DownloadManager.Request request = new DownloadManager.Request(uri);
+            request.setNotificationVisibility(
+                    DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+            request.setTitle(mSongList.get(mPosition).getNameSong());
+            request.setDescription(R.string.downloading + "");
+            assert downloadManager != null;
+            downloadManager.enqueue(request);
+        } else {
+            Toast.makeText(this, R.string.null_link, Toast.LENGTH_SHORT).show();
         }
     }
 }

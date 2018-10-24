@@ -398,6 +398,9 @@ public class FragmentPlayMusic extends Fragment
                 break;
             case R.id.buttonShuffle:
                 setButtonShuffle();
+                break;
+            case R.id.buttonDownload:
+                mServicePlayMusic.downLoad();
         }
     }
 
