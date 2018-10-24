@@ -116,7 +116,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/buttonPrevious"
-        app:srcCompat="@drawable/ic_shuffle_black_24dp"
+        app:srcCompat="@drawable/ic_non_shuffle_24dp"
         tools:ignore="VectorDrawableCompat"
         />
     <ImageButton
@@ -164,7 +164,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/buttonNext"
         app:layout_constraintRight_toRightOf="parent"
-        app:srcCompat="@drawable/ic_repeat_black_24dp"
+        app:srcCompat="@drawable/ic_non_repeat_24dp"
         tools:ignore="VectorDrawableCompat"
         />
 </android.support.constraint.ConstraintLayout>

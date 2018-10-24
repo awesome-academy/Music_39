@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity
         mActionBar = getSupportActionBar();
         assert mActionBar != null;
         mActionBar.hide();
-        mNavigator.addFragment(MainActivity.this,HomeFragment.newInstance(),R.id.frame_container);
+        mNavigator.addFragment(MainActivity.this, HomeFragment.newInstance(), R.id.frame_container);
         BottomNavigationView bottomNavigationView = findViewById(R.id.navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(this);
     }
@@ -40,7 +40,8 @@ public class MainActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.navigation_home:
                 mActionBar.setTitle(R.string.title_home);
-                mNavigator.addFragment(MainActivity.this,HomeFragment.newInstance(),R.id.frame_container);
+                mNavigator.addFragment(MainActivity.this, HomeFragment.newInstance(),
+                        R.id.frame_container);
                 return true;
             case R.id.navigation_music:
                 mActionBar.setTitle(R.string.title_music);
@@ -50,11 +51,5 @@ public class MainActivity extends AppCompatActivity
                 return true;
         }
         return false;
-    }
-
-    private void loadFragment(Fragment fragment) {
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
-        transaction.commit();
     }
 }

@@ -17,7 +17,7 @@ public class Navigator {
             case R.id.frame_content_list_home:
                 FragmentTransaction fragmentTransaction1 =
                         fragmentActivity.getSupportFragmentManager().beginTransaction();
-                fragmentTransaction1.replace(idLayout, fragment);
+                fragmentTransaction1.add(idLayout, fragment);
                 fragmentTransaction1.addToBackStack(null);
                 fragmentTransaction1.commit();
                 break;
