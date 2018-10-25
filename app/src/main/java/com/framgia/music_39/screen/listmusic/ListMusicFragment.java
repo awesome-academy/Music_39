@@ -13,16 +13,16 @@ import android.widget.Toast;
 import com.framgia.music_39.R;
 import com.framgia.music_39.data.model.Song;
 import com.framgia.music_39.data.repository.SongRepository;
+import com.framgia.music_39.data.source.local.SongLocalDataSource;
 import com.framgia.music_39.data.source.remote.SongRemoteDataSource;
 import com.framgia.music_39.screen.playmusic.FragmentPlayMusic;
-import com.framgia.music_39.screen.utils.Navigator;
 import com.framgia.music_39.screen.utils.ItemClickListener;
+import com.framgia.music_39.screen.utils.Navigator;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListMusicFragment extends Fragment
         implements ListMusicContract.View, ItemClickListener, View.OnClickListener {
-
     private static String ARGUMENT_GENRE = "ARGUMENT_GENRE";
     private ListMusicAdapter mListMusicAdapter;
     private List<Song> mSongList;
@@ -49,6 +49,7 @@ public class ListMusicFragment extends Fragment
 
     private void initView(View view) {
         ImageButton buttonBack = view.findViewById(R.id.button_back);
+        buttonBack.setVisibility(View.GONE);
         buttonBack.setOnClickListener(this);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view_list_music);
         recyclerView.setHasFixedSize(true);
@@ -60,12 +61,19 @@ public class ListMusicFragment extends Fragment
 
     private void initPresenter() {
         SongRemoteDataSource songRemoteDataSource = SongRemoteDataSource.getInstance();
-        SongRepository songRepository = SongRepository.getInstance(songRemoteDataSource);
+        SongLocalDataSource songLocalDataSource =
+                SongLocalDataSource.getInstance(getContext().getContentResolver());
+        SongRepository songRepository =
+                SongRepository.getInstance(songRemoteDataSource, songLocalDataSource);
         assert getArguments() != null;
         String genre = getArguments().getString(ARGUMENT_GENRE);
         ListMusicPresenter listMusicPresenter = new ListMusicPresenter(songRepository);
         listMusicPresenter.setView(this);
-        listMusicPresenter.getListSongByGenres(genre);
+        if (genre != null) {
+            listMusicPresenter.getListSongByGenres(genre);
+        } else {
+            listMusicPresenter.getListSongLocal();
+        }
     }
 
     @Override
@@ -89,8 +97,7 @@ public class ListMusicFragment extends Fragment
     private void addFragmentPlayMusic() {
         FragmentPlayMusic fragmentPlayMusic =
                 FragmentPlayMusic.newInstance(mPosition, (ArrayList<Song>) mSongList);
-        mNavigator.addFragment(getActivity(), fragmentPlayMusic,
-                R.id.frame_content_list_home);
+        mNavigator.addFragment(getActivity(), fragmentPlayMusic, R.id.frame_content_list_home);
     }
 
     @Override

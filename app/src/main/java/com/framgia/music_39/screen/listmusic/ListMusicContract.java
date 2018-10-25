@@ -13,6 +13,8 @@ public interface ListMusicContract {
     interface Presenter {
         void getListSongByGenres(String url);
 
+        void getListSongLocal();
+
         void setView(View view);
     }
 }

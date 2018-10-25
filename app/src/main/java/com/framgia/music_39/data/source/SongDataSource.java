@@ -1,5 +1,6 @@
 package com.framgia.music_39.data.source;
 
+import com.framgia.music_39.data.source.local.SongLocalDataCallBack;
 import com.framgia.music_39.data.source.remote.SongRemoteDataCallBack;
 
 public interface SongDataSource {
@@ -8,6 +9,6 @@ public interface SongDataSource {
     }
 
     interface LocalDataSource extends SongDataSource {
-        void getData();
+        void getListSongLocal(SongLocalDataCallBack listener);
     }
 }
