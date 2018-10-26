@@ -20,6 +20,7 @@ import static com.framgia.music_39.screen.utils.Constant.CLIENT_ID;
 public class FetchData extends AsyncTask<String, Void, List<Song>> {
     private static final String GET = "GET";
     private static final String COLLECTION = "collection";
+    private static final String NULL = "null";
 
     private SongRemoteDataCallBack mSongRemoteDataCallBack;
     private List<Song> mSongList = new ArrayList<>();
@@ -62,9 +63,13 @@ public class FetchData extends AsyncTask<String, Void, List<Song>> {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
+                String artist = jsonObject.getString(Song.SongEntry.NAME_ARTIST);
+                if (artist.isEmpty() || artist.equals(NULL)) {
+                    artist = "";
+                }
                 Song song = new Song.SongBuilder().nameSong(
                         jsonObject.getString(Song.SongEntry.NAME_SONG))
-                        .nameArtist(jsonObject.getString(Song.SongEntry.NAME_ARTIST))
+                        .nameArtist(artist)
                         .imageSong(jsonObject.getString(Song.SongEntry.URL_IMAGE))
                         .linkSong(jsonObject.getString(Song.SongEntry.URL_STREAM) + CLIENT_ID)
                         .duration(jsonObject.getString(Song.SongEntry.DURATION))

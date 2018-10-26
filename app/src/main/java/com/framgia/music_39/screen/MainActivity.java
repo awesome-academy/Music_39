@@ -18,12 +18,14 @@ public class MainActivity extends AppCompatActivity
         implements BottomNavigationView.OnNavigationItemSelectedListener {
     private static final int REQUEST_PERMISSION_STORAGE = 123;
     private ActionBar mActionBar;
-    private Navigator mNavigator;
+    public static Navigator mNavigator;
+    private Boolean mIsPermission;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        initView();
         initPermission();
     }
 
@@ -48,11 +50,17 @@ public class MainActivity extends AppCompatActivity
                 return true;
             case R.id.navigation_music:
                 mActionBar.setTitle(R.string.title_music);
-                mNavigator.addFragment(MainActivity.this,
-                        ListMusicFragment.getListMusicFragment(null), R.id.frame_container);
+                if (!mIsPermission) {
+                    initPermission();
+                } else {
+                    mNavigator.addFragment(MainActivity.this,
+                            ListMusicFragment.getListMusicFragment(null), R.id.frame_container);
+                }
                 return true;
             case R.id.navigation_search:
                 mActionBar.setTitle(R.string.title_search);
+                mNavigator.addFragment(MainActivity.this, HomeFragment.newInstance(),
+                        R.id.frame_container);
                 return true;
         }
         return false;
@@ -64,9 +72,9 @@ public class MainActivity extends AppCompatActivity
         switch (requestCode) {
             case REQUEST_PERMISSION_STORAGE:
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    initView();
+                    mIsPermission = true;
                 } else {
-                    finish();
+                    mIsPermission = false;
                 }
                 break;
         }
@@ -79,10 +87,10 @@ public class MainActivity extends AppCompatActivity
                 requestPermissions(new String[] { Manifest.permission.READ_EXTERNAL_STORAGE },
                         REQUEST_PERMISSION_STORAGE);
             } else {
-                initView();
+                mIsPermission = true;
             }
         } else {
-            initView();
+            mIsPermission = true;
         }
     }
 }
