@@ -17,6 +17,13 @@
             app:layout_constraintBottom_toTopOf="@id/navigation"
             app:layout_constraintTop_toTopOf="parent"
             />
+        <FrameLayout
+            layout="@layout/fragment_control_music"
+            android:id="@+id/layout_control_mini"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@id/navigation"
+         />
         <android.support.design.widget.BottomNavigationView
             android:id="@+id/navigation"
             android:layout_width="match_parent"

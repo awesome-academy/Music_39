@@ -236,9 +236,7 @@ public class FragmentPlayMusic extends Fragment
     }
 
     public void setVisibilityView() {
-        mView.findViewById(R.id.layout_top).setVisibility(View.GONE);
-        mView.findViewById(R.id.layout_bottom).setVisibility(View.VISIBLE);
-        mViewListMusic.findViewById(R.id.layout_home).setVisibility(View.GONE);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 
     public void setButtonNext() {
